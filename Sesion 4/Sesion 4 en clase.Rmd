@@ -1,0 +1,206 @@
+---
+title: "Sesion 4"
+author: "Juan José Merino Zarco"
+date: "30/6/2021"
+output: pdf_document
+---
+
+
+### for
+
+Verificar si un "chapinguero" pasaba el año, promedio > 6.6.
+
+```{r}
+verificar_p <- function(calificaciones){
+  promedio <- mean(calificaciones)
+  if(promedio >= 6.6){"Pasa el año"}else{"No pasa"}
+}
+```
+
+```{r}
+alumno1 <- verificar_p(c(9,10,9,8))
+alumno1
+```
+
+```{r}
+alumno2 <- verificar_p(c(6.6,9,7,4))
+alumno2
+```
+
+### for 
+
+```
+for(elemento *in* objeto){operacion con cada elemento}
+```
+
+```{r}
+dado <- c(1:6)
+dado
+```
+
+```{r}
+dup <- NULL
+```
+
+```{r}
+for(elemento in dado){
+  dup[elemento] <- elemento + 3
+}
+```
+
+```{r}
+dup
+```
+
+# Librerias
+
+## Manual
+
+```
+install.packages("readr")
+```
+
+```
+library("readr")
+```
+
+## Automatico
+
+```
+pacman::p_load(readr)
+```
+
+# Cargar una base de datos de inegi, Censo economico del 2019, archivo .csv
+
+
+```{r}
+getwd()
+```
+
+## Cargar la base de datos
+
+```{r}
+pacman::p_load(readr)
+```
+
+El archivo que se uso esta muy pesado, por lo que dejo el enlace directo para que descarguen el archivo por si necesitan replicar el ejercicio.
+
+<https://www.inegi.org.mx/contenidos/programas/ce/2019/Datosabiertos/ce2019_mich_csv.zip>
+
+```{r}
+CE2019Mich <- read_csv(file = "ce2019_mich.csv")
+```
+
+
+```{r}
+head(CE2019Mich)
+```
+
+```{r}
+class(CE2019Mich)
+```
+Crear una variable que nos permita identificar cada renglon de nuestro dataframe
+
+```{r}
+ID <- seq.int(nrow(CE2019Mich))
+```
+
+```{r}
+CE2019Mich_ID <- cbind(CE2019Mich, ID)
+```
+
+Filtrar por las variables de interes
+
+```{r}
+CE2019Mich_ID_filt <- CE2019Mich_ID[c("ENTIDAD", "CODIGO", "ID_ESTRATO", "UE", "A111A", "A121A", "A800A", "H001D", "H010A", "ID")]
+```
+
+
+```{r}
+head(CE2019Mich_ID_filt)
+```
+
+Ahora, vamos a quedarnos unicamente con el sector y subsectores de interes
+
+```{r}
+CE2019Mich_ID_filt_filt <- CE2019Mich_ID_filt[CE2019Mich_ID_filt$ID > 295 & CE2019Mich_ID_filt$ID < 1324,]
+```
+
+Crear una variable CLAVE, que no tenga guiones
+
+```{r}
+pacman::p_load(taRifx)
+```
+
+```{r}
+CLAVE <- destring(CE2019Mich_ID_filt_filt$CODIGO, keep ="0-9")
+```
+
+```{r}
+CE2019Mich_toedit <- cbind(CE2019Mich_ID_filt_filt, CLAVE)
+```
+
+Solo me interesan sectores y subsectores, procedemos a filtrar nuevamente
+
+
+```{r}
+CE_MICH_2019 <- CE2019Mich_toedit[CE2019Mich_toedit$CLAVE < 1000 | CE2019Mich_toedit$CODIGO == "31-33",]
+```
+
+Sustituir el 3133 por un 300(Industria manufacturera)
+
+```{r}
+CE_MICH_2019$CLAVE[CE_MICH_2019$CLAVE == 3133] <- 300
+```
+
+Vamos a crear una CLAVE_UNICA
+
+comando paste0(), sirve para combinar los valores de varias columnas.
+
+```{r}
+CE_MICH_2019$CLAVE_UNICA <- paste0(CE_MICH_2019$ENTIDAD, CE_MICH_2019$CLAVE, CE_MICH_2019$ID)
+```
+
+Esta lista nuestra base de datos, esta limpia
+
+```{r}
+CE_MICH_2019
+```
+
+Vamos a guardar la base de datos. write.csv()
+
+```{r}
+write.csv(x = CE_MICH_2019, file = "CE_MICH_2019_CS.csv", row.names = FALSE)
+```
+
+para juntarla con otros estados, usariamos el comando merge().
+
+***
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

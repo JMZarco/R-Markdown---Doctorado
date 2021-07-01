@@ -1,0 +1,90 @@
+---
+title: "Sesion 4.5"
+author: "Juan José Merino Zarco"
+date: "30/6/2021"
+output:
+  pdf_document: default
+---
+
+# Graficos
+
+```{r}
+pacman::p_load(ggplot2)
+```
+
+## Nueva base datos, mtcars
+
+```{r}
+mtcars
+```
+
+
+
+```{r}
+?mtcars
+```
+
+
+## Graficas por defecto de R
+
+barplot()
+
+```{r}
+cylfactor <- table(mtcars$cyl)
+
+barplot(cylfactor,
+        main = "Grafico de barras",
+        xlab = "Num. de Cilindros",
+        ylab = "Num. de vehiculos")
+```
+
+## Graficos con ggplot
+
+qplot()
+
+```{r}
+qplot(mtcars$cyl,
+      main = "Grafico de barras",
+      xlab = "Num. de Cilindros",
+      ylab = "Num. de vehiculos",
+      geom = "bar",
+      color = I("black"),
+      fill = I("Red"))
+```
+
+## Graficas con ggplot()
+
+
+```{r}
+ggplot(mtcars, aes(cyl)) + geom_bar()
+```
+
+```{r}
+ggplot(mtcars, aes(x=as.factor(cyl))) + geom_bar(aes(fill=as.factor(cyl))) + scale_fill_brewer(name = "Cilindros", palette = "Blues") + labs(x = "Numero de cilindros",y= "Numero de vehiculos", title = "Grafica de barras") 
+```
+
+# Recursos adicionales
+
+**Cheat Sheet de ggplot2**
+
+<https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf>
+
+**Modificar etiquetas de las graficas**
+
+<https://www.datanovia.com/en/blog/ggplot-legend-title-position-and-labels/>
+
+**R for Data Science (GGplot2)**
+
+<https://rstudio-pubs-static.s3.amazonaws.com/318832_e8443ac15f704debacd04107ae000e17.html#barplot>
+
+**ggplot2 Quick Reference: colour (and fill)**
+
+<http://sape.inf.usi.ch/quick-reference/ggplot2/colour>
+
+**R Graphics Essentials for Great Data Visualization: +200 Practical**
+
+<https://www.amazon.com.mx/Graphics-Essentials-Great-Data-Visualization-ebook/dp/B077H23KVK>
+
+
+
+
