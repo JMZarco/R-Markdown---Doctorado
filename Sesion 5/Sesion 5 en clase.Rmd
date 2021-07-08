@@ -1,0 +1,304 @@
+---
+title: "Sesion final"
+author: "Juan José Merino Zarco"
+date: "4/7/2021"
+output:
+  pdf_document: default
+---
+
+```{r librerias}
+pacman::p_load(ggplot2, stargazer)
+```
+
+# Graficas
+
+Libro recomendado:
+
+**THE HITCHHIKER’S GUIDE TO GGPLOT2**
+
+**ggplot2, data visualization (Alboukadel Kassambara)**
+
+### Regresion lineal, ggplot()
+
+```{r}
+ggplot(data = mtcars, aes(x=wt, y = mpg)) +
+  geom_point(shape = 1) +
+  geom_smooth(method = "lm", color = "blue") + labs(title = "Regresion lineal", x = "Peso (1000 lbs)", y = "Millas/(US) galon")
+```
+
+\newpage
+
+# Regresion Lineal
+
+Para representar los datos de una regresion lineal o de una regresion multiple hay varias maneras de mediante las cuales podemos presentar los datos.
+
+> Modelo de regresion lineal.
+
+$$\hat{wt} = \hat{b_{0}} + \hat{b_{1}}mpg$$
+
+```{r}
+reg1 <- lm(wt ~ mpg, data = mtcars)
+reg1
+```
+
+## Presentacion de resultados con funciones de R
+
+```{r, results='asis'}
+print(reg1)
+```
+
+
+```{r}
+summary(reg1)
+```
+
+
+```{r}
+g <- coef(summary(reg1))
+
+knitr::kable(g)
+```
+
+\newpage
+
+## Presentacion de resultados con Stargazer
+
+```{r, results='asis'}
+stargazer(reg1, header=FALSE, type='latex', title = "Regresion Lineal")
+```
+
+### Nota
+
+```{r}
+obj1 <- 2 + 2
+obj1
+```
+
+`r obj1`
+
+## Presentacion manual de resultados
+
+$$\hat{wt} = \hat{b_{0}} + \hat{b_{1}}mpg = (`r reg1$coefficients[1]`) + (`r reg1$coefficients[2]`)mpg$$
+
+$(\vec{\hat{b}})^{T} = (`r reg1$coefficients`)$
+
+$\hat{b_{0}} = `r reg1$coefficients[1]`$
+
+$\hat{b_{1}} = `r reg1$coefficients[2]`$
+
+$R^{2} = `r summary(reg1)$r.squared`$
+
+\newpage
+
+\section{SÍMBOLOS MATEMÁTICOS}
+
+Subíndice: $x_{2}$ \vspace{.5cm}
+
+Superíndice: $x^{n}$ \vspace{.5cm}
+
+Letras griegas: 
+
+$$\alpha , \beta , ... \gamma , \delta , \lambda , \xi , \phi , \Pi $$
+
+$$\Gamma , \Delta , \Lambda , \Xi , \Phi , \Pi$$
+
+Operadores de relación:
+
+$$
+\leq, \geq, \equiv, \sim, \neq,
+$$
+
+Símbolos de flechas:
+
+$$
+\leftarrow , \rightarrow , \uparrow , \downarrow , \leftrightarrow 
+$$
+
+$$
+\Leftarrow , \Rightarrow , \Uparrow , \Downarrow , \Leftrightarrow 
+$$
+
+Operadores:
+
+$$
+\sum , \prod , \int
+$$
+
+$$
+\sum_{i=0}^{n} , \prod_{i=0}^{n} , \int_{i=0}^{n}
+$$
+
+Acentos en modo matemático:
+
+$$
+\hat{\alpha} , \bar{x} , \vec{y} , \tilde{a} 
+$$
+
+Símbolos varios:
+
+$$
+\ldots , \cdots ,  \vdots, \ddots, \infty , \\
+\pm , \cdot , \div , \times
+$$
+
+Raiz:
+
+$$
+\sqrt{2} , \sqrt[3]{2}
+$$
+
+Limitadores:
+
+$$
+(\frac{x^{2}}{a}) + b = 5
+$$
+
+$$
+\left( \frac{x^{2}}{a} \right) + b = 5
+$$
+
+$$
+\left[ \frac{x^{2}}{a} \right] + b = 5
+$$
+
+
+\newpage
+
+\section{ECUACIONES}
+
+Ecuación en la misma linea: $ax^{2}+bx+c = 0$ \vspace{.5cm}
+
+Ecuación centrada: 
+
+$$
+ax^{2}+bx+c = 0
+$$
+
+Ecuación centrada y numerada:
+
+\begin{equation}
+    ax^{2}+bx+c = 0, a \neq 0
+\end{equation}
+
+Ecuacion centrada y sin numerar:
+
+\begin{equation*}
+    ax^{2}+bx+c = 0, a \neq 0
+\end{equation*} \vspace{.5cm}
+
+Alinear una serie de ecuaciones. \vspace{.5cm}
+
+Ejemplo: Demostración de la Fórmula General para Resolver Ecuaciones de Segundo Grado. \vspace{.5cm}
+
+\begin{align*}
+    ax^{2}+bx+c &= 0, a \neq 0\\
+    4a \cdot (ax^{2}+bx+c) &= 4a \cdot 0\\
+    4a^{2}x^{2}+4abx+4ac &= 0\\
+    4a^{2}x^{2}+4abx+4ac + (b^{2}) &= (b^{2})\\
+    4a^{2}x^{2}+4abx + (b^{2}) &= (b^{2}) - 4ac\\
+    (2ax)^{2} + 2 \cdot 2ax \cdot + b^{2} &= b^{2} - 4ac\\
+    (2ax+b)^{2} &= b^{2} -4ac\\
+    2ax+b &= \sqrt{b^{2} -4ac}\\
+    2ax &= -b \pm \sqrt{b^{2} -4ac}\\
+    x &= \frac{-b \pm \sqrt{b^{2} -4ac}}{2a}\\
+\end{align*}
+
+\newpage
+
+\section{REFERENCIAS CRUZADAS}
+
+Problema de optimización: \vspace{.5cm}
+
+\begin{align}
+    \max_{x_{1}, x_{2}} &u(x_{1},x_{2}) \label{Max} \\ 
+    \notag s.a:& p_{1}x_{1}+p_{2}x_{2} \leq m 
+\end{align}
+
+El problema (\ref{Max}) de maximización, corresponde al problema de maximización de las preferencias sujeto a una restricción presupuestal, para resolverlo, existen varios métodos, entre los que se encuentran los "Multiplicadores de Lagrange". \vspace{.5cm}
+
+
+\newpage
+
+\section{LISTAS} 
+
+\subsection{Listas no numeradas}
+
+\begin{itemize}
+    \item 1 Primer Nivel
+    \item 2 Primer Nivel
+    \item 3 Primer Nivel
+\end{itemize}
+
+\subsubsection{Niveles de listas} 
+
+Segundo nivel \vspace{.5cm}
+
+\begin{itemize}
+    \item 1 Primer Nivel
+    \item 2 Primer Nivel
+    \begin{itemize}
+        \item 1 Segundo nivel
+        \item 2 Segundo nivel
+    \end{itemize}
+    \item 3 Primer Nivel
+\end{itemize}
+
+Tercer nivel \vspace{.5cm}
+
+\begin{itemize}
+    \item 1 Primer Nivel
+    \item 2 Primer Nivel
+    \begin{itemize}
+        \item 1 Segundo nivel
+        \item 2 Segundo nivel
+        \begin{itemize}
+            \item 1 Tercer nivel
+            \item 2 Tercer nivel
+        \end{itemize}
+    \end{itemize}
+    \item 3 Primer Nivel
+\end{itemize}
+
+\subsection{Listas Numeradas}
+
+\begin{enumerate}
+    \item Tierra
+    \item Aire
+    \item Fuego
+    \item Agua
+\end{enumerate}
+
+\subsubsection{Niveles}
+
+\begin{enumerate}
+    \item Primer nivel
+    \begin{enumerate}
+        \item Segundo nivel
+        \item Segundo nivel
+        \begin{enumerate}
+            \item Tercer nivel
+            \item Tercer nivel
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+
+
+\newpage
+
+
+\newpage
+
+\section{Material Adicional}
+
+Enlaces:
+
+\vspace{.5cm}
+
+\textbf{Creación de listas y tablas}
+
+\url{http://metodos.fam.cie.uva.es/~latex/apuntes/apuntes2.pdf}\\
+
+\textbf{Formulas matemáticas}
+
+\url{http://metodos.fam.cie.uva.es/~latex/apuntes/apuntes3.pdf}
+

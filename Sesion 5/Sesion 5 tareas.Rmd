@@ -1,0 +1,43 @@
+---
+title: "Tareas del curso"
+subtitle: "Curso R Markdown en ciencias sociales"
+author: 
+- "Juan"
+- "Adrian"
+date: '`r format(Sys.Date(), " %d de %B de %Y")`'
+linkcolor: red
+urlcolor: green
+fontsize: 11pt
+maint: Arial
+geometry: margin=3cm
+output: 
+  pdf_document:
+    fig_caption: TRUE
+    number_sections: YES
+header-includes: 
+- \usepackage[spanish]{babel}
+---
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\listoffigures
+
+\newpage
+
+```{r,child='T1 Taller.Rmd'}
+```
+
+\newpage
+
+```{r,child='T2a.Rmd'}
+```
+
+\newpage
+
+```{r,child='T2b.Rmd'}
+```
+
